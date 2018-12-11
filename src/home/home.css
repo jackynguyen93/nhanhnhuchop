@@ -1,0 +1,65 @@
+.container {
+    flex: 1 !important;
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    padding: 0;
+    background-image: url('/images/background.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 100vw;
+}
+
+.home-screen {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.logo {
+    margin-top: 80px;
+}
+
+.home-main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.btn-home-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 44px;
+}
+
+.btn-home-center {
+    margin-bottom: 20px;
+    background: none;
+    border: none;
+}
+
+.btn-home-bottom {
+    background: none;
+    border: none;
+}
+
+.home-bottom-bar {
+    margin-bottom: 20px;
+}
+
+#btn-home-avatar {
+    position: relative;
+}
+
+.img-player-avatar {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    top: 12px;
+    left: 12px;
+    border-radius: 20px;
+}
