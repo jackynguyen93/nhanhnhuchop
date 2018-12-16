@@ -1,0 +1,339 @@
+.main-screen {
+    flex: 1;
+    flex-direction: column;
+    align-items: center;
+    display: none;
+}
+
+#flash-none {
+}
+
+#flash-red {
+    background: rgb(252, 82, 30, 0.7);
+    -webkit-animation: flash linear 1s infinite;
+    animation: flash linear 1s infinite;
+}
+
+#flash-green {
+    background: rgba(81, 196, 60);
+    -webkit-animation: flash linear 1s infinite;
+    animation: flash linear 1s infinite;
+}
+
+.time {
+    position: absolute;
+    height: 6px;
+    left: 0px;
+    right: 0px;
+    background-color: #1cd5c5;
+}
+
+.main-header {
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 32px;
+}
+
+.btn-main {
+    background: none;
+    border: none;
+}
+
+.btn-back {
+    margin-left: 12px;
+}
+
+.score-view {
+    display: inline-block;
+    width: 60px;
+    height: 150px;
+    position: absolute;
+    top: 0px;
+    right: 15px;
+    z-index: 1;
+}
+
+.score-view img {
+    z-index: 3;
+    display: block;
+    max-width: 100%;
+    height: auto;
+}
+
+.score-bar {
+    max-width: 120px;
+    position: absolute;
+    top: 85px;
+    right: -10px;
+    z-index: 3;
+}
+
+.highest-score-view {
+    display: flex;
+    color: #ffcf05;
+    font-size: 24px;
+    align-items: center;
+}
+
+.star-score {
+    margin-left: 6px;
+    margin-right: 12px;
+}
+
+
+.score-bar-fill {
+    width: 15px;
+    height: 0px;
+    position: absolute;
+    bottom: -90px;
+    right: 13px;
+    background: #41d51c;
+    z-index: 1;
+    background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.05));
+    transition: 0.4s linear;
+    transition-property: height, background-color;
+    box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.25), inset 0 1px rgba(255, 255, 255, 0.1);
+}
+
+.score-number {
+    position: absolute;
+    bottom: -134px;
+    right: 8px;
+    width: 15px;
+    color: white;
+    font-weight: bold;
+}
+
+.main-container {
+    align-items: center;
+    margin-top: 24px;
+
+    width: 74%;
+    display: inline-block;
+}
+
+
+.question-view {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-left: -12px;
+    margin-bottom: -40px;
+    height: 250px;
+    padding: 20px;
+    color: white;
+}
+
+.operation-view {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.operator {
+    margin-right: 20px;
+}
+
+.number-operation {
+    display: flex;
+    flex-direction: column;
+    min-width: 90px;
+    align-items: flex-end;
+}
+
+.operation-result {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.equal-character {
+    margin-right: 20px;
+}
+
+.number-result {
+    display: flex;
+    min-width: 90px;
+    justify-content: flex-end;
+}
+
+.btn-result {
+    padding: 5px 5px 5px 5px;
+    margin-top: 30px;
+    margin-left: 5px;
+    margin-right: 5px;
+    background-image: linear-gradient(rgba(124, 242, 255, 0.5), rgba(83, 255, 235, 0.5)); /* The image used */
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: right;
+    overflow-y: hidden ! important;
+    overflow-x: hidden ! important;
+    border: solid 1px snow;
+    color: white;
+    border-radius: 5px;
+}
+
+.wrong-answer {
+    background-color: red;
+    border: solid red;
+}
+
+.correct-answer {
+    background-color: green;
+    border: solid green;
+}
+
+/*Popup*/
+
+.pop-up-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 9;
+    background: rgba(0, 0, 0, 0.7);
+    padding-left: 14px;
+    padding-right: 14px;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.pop-up-box {
+    position: relative;
+    background: #015d66;
+    border-radius: 8px;
+    margin-top: 120px;
+}
+
+.pop-up-content {
+    margin-left: 2px;
+    margin-right: 2px;
+    margin-bottom: 5px;
+    background: #dcfffe;
+    border-radius: 8px;
+}
+
+.ribbon {
+    position: absolute;
+    margin-left: auto;
+    margin-right: auto;
+    top: -47px;
+    left: 0px;
+    right: 0px;
+    max-width: 90%;
+    height: 87px;
+}
+
+.score-result-view {
+    padding-top: 60px;
+    padding-bottom: 42px;
+    max-width: 90%;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.score-result {
+    background: #015d66;
+    color: #ffffff;
+    line-height: 54px;
+    min-height: 54px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.score-result-text {
+    font-size: 24px;
+    flex: 1;
+    text-align: center;
+}
+
+.score-result-point {
+    font-size: 54px;
+    min-width: 80px;
+    text-align: center;
+    margin-right: 50px;
+}
+
+#btn-share-challenge {
+    flex: 1;
+    text-align: center;
+    font-size: 24px;
+    color: #ffcf05;
+}
+
+.pop-up-button-view {
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    height: 80px;
+    bottom: -40px;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.btn-pop-up {
+    background: none;
+    border: none;
+    margin-left: 12px;
+    margin-right: 12px;
+}
+
+#quit-game-popup {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.quit-game-title {
+    color: #015d66;
+    font-size: 24px;
+    margin-top: 20px;
+}
+
+.quit-game-view {
+    display: flex;
+    flex-direction: row;
+    padding-top: 30px;
+    padding-bottom: 20px;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.btn-quit-game {
+    background: #015d66;
+    color: #ffffff;
+    height: 54px;
+    margin-right: 10px;
+    margin-left: 10px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    min-width: 120px;
+}
+
+#alert-popup {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.alert-message {
+    color: #015d66;
+    font-size: 24px;
+    margin: 20px;
+}

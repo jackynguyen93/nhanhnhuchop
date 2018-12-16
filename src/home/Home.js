@@ -6,13 +6,14 @@ class Home extends Component {
   render() {
     return (
       <div className="container home-screen">
-        <img className="logo" src="./images/logo.png"/>
+        <img className="logo" src="./images/logonhanhnhuchop.png"/>
         <div className="home-main">
           <div className="btn-home-content">
-            <button className="btn-home-center" id="btn-home-play">
-              <Link to="/game" />
-              <img src="./images/btn-home-play.png"/>
-            </button>
+            <Link to="/game" >
+              <button className="btn-home-center" id="btn-home-play">
+                <img src="./images/btn-home-play.png"/>
+              </button>
+            </Link>
             <button className="btn-home-center" id="btn-home-friend">
               <img src="./images/btn-home-friend.png"/>
             </button>
