@@ -93,27 +93,43 @@ class Game extends Component {
     })
   }
 
-
-  countDown(time = 100) {
+  countDown(time = 60) {
     // set time out for per question
     const me = this;
     const width = parseInt(me.timeBar.current.offsetWidth);
     // distance = width / (second * 10)
-    const distance = width / 600;
+    const distance = width / (time * 10);
     let currentRight = 0;
+    me.setState({timeLeft: time})
     console.log("Start:" + new Date().getTime());
     me.countDownInterval = setInterval(function() {
+        console.log("End:" + new Date().getTime());
       if (parseInt(me.timeBar.current.offsetWidth) === 0) {
         clearInterval(me.countDownInterval);
         me.setState({timeup : true})
-        console.log("End:" + new Date().getTime());
         //const game = Game.currentGame()
         //handleGameOver(game)
         //updateTurnBestScore()
       }
+      me.setState({timeLeft: me.state.timeLeft - 1})
       currentRight += distance;
       me.timeBar.current.style.right =  currentRight + "px";
-    }, time) // time for per count down and change in view
+    }, 100) // time for per count down and change in view
+  }
+
+  quitGame() {
+    this.setState({isQuit: true});
+  }
+
+  resumeGame() {
+    this.setState({isQuit: false});
+  }
+
+  exit() {
+    clearInterval(this.countDownInterval);
+    setTimeout(() => {
+      this.props.history.push("/");
+    }, 200);
   }
 
 
@@ -141,7 +157,7 @@ class Game extends Component {
           </div>
           <div className="pop-up-button-view">
             <Link to="/" >
-              <button className="btn-pop-up" id="btn-pop-up-exit">
+              <button className="btn-pop-up" id="btn-pop-up-exit" >
                 <img src="./images/btn-home-exit.png"/>
               </button>
             </Link>
@@ -160,14 +176,37 @@ class Game extends Component {
     )
   }
 
+  popupQuitGame() {
+    return (
+    <div className="pop-up-container">
+      <div className="pop-up-box">
+        <div className="pop-up-content" id="quit-game-popup">
+          <span className="quit-game-title">Are you sure?</span>
+          <div className="quit-game-view">
+
+            <button className="btn-pop-up btn-quit-game" id="btn-quit-game" onClick={() => this.exit()}>
+              <span className="btn-quit-title">Quit</span>
+            </button>
+
+            <button className="btn-pop-up btn-quit-game" id="btn-quit-game-back" onClick={() => this.resumeGame()}>
+              <span className="btn-quit-title">Back</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    )
+  }
+
   render() {
-    let {question, casea, caseb, casec, cased, highest, timeup} = this.state;
+    let {question, casea, caseb, casec, cased, highest, timeup, isQuit} = this.state;
     return (
       <div className="container home-screen">
         {timeup && this.popupGameover()}
+        {isQuit && this.popupQuitGame()}
         <div ref={this.timeBar} className="time" id="time"></div>
         <div className="main-header">
-          <button className="btn-main btn-back">
+          <button className="btn-main btn-back" onClick={() => this.quitGame()}>
             <img id="btn-main-back" src="./images/ic-back.png"/>
           </button>
           <div className="highest-score-view">

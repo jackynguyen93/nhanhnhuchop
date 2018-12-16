@@ -15,9 +15,9 @@ from sqlalchemy.schema import Column
 from sqlalchemy.sql import func
 from sqlalchemy.types import String, INTEGER
 
-app = Flask(__name__)
-app.config['SECRET_KEY'] = 'somethingsectret'
-CORS(app)
+application = Flask(__name__)
+application.config['SECRET_KEY'] = 'somethingsectret'
+CORS(application)
 
 Base = declarative_base()
 engine = create_engine('sqlite+pysqlite:///db/Question',  module=sqlite)
@@ -44,14 +44,14 @@ class Question(Base, JsonModel):
 
 ######### RESTFUL API ###########
 
-@app.route("/get-question/", methods = ['GET'])
+@application.route("/get-question/", methods = ['GET'])
 def get_doctors():
     Session = scoped_session(session_factory)
     session = Session()
     level = request.args.get('level')
 
     question = session.query(Question).filter(Question.level == level).order_by(func.random()).first()
-    response = app.response_class(
+    response = application.response_class(
         response=json.dumps(question.as_dict(), default=str),
         status=200,
         mimetype='application/json'
@@ -63,5 +63,5 @@ def get_doctors():
 if __name__ == "__main__":
     connection = engine.connect()
     session_factory = sessionmaker(bind=engine)
-    app.run(host='localhost', port=os.environ.get('PORT', 3001), debug=True)
+    application.run(host='localhost', port=os.environ.get('PORT', 3001), debug=True)
     connection.close()
