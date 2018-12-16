@@ -21,7 +21,8 @@ CORS(application)
 
 Base = declarative_base()
 engine = create_engine('sqlite+pysqlite:///db/Question',  module=sqlite)
-
+connection = engine.connect()
+session_factory = sessionmaker(bind=engine)
 ####################################################################################################
 ##### Table Def ############
 class JsonModel(object):
@@ -61,7 +62,6 @@ def get_doctors():
 
 
 if __name__ == "__main__":
-    connection = engine.connect()
-    session_factory = sessionmaker(bind=engine)
+
     application.run(host='localhost', port=os.environ.get('PORT', 3001), debug=True)
     connection.close()
