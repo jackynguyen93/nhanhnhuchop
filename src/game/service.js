@@ -2,7 +2,7 @@ import axios from 'axios'
 
 class GameService {
   constructor() {
-    this.apiurl = "http://localhost:3001";
+    this.apiurl = "https://nguyenvan.site";
   }
 
   getQuestion(level) {
