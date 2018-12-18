@@ -62,3 +62,53 @@
     left: 12px;
     border-radius: 20px;
 }
+
+
+/*PRE MATCH*/
+
+
+.pre-match-screen {
+    flex: 1;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+}
+
+.pre-match-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 44px;
+    color: #ffffff;
+    font-size: 24px;
+}
+
+.pre-match-player-view {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.current-player-view {
+    margin-right: 100px;
+}
+
+.opponent-player-view {
+    margin-left: 100px;
+}
+
+.pre-match-avatar {
+    position: relative;
+}
+
+.vs-text {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.waiting-screen {
+    flex: 1;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+}

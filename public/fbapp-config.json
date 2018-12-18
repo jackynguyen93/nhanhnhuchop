@@ -1,0 +1,15 @@
+{
+  "instant_games": {
+    "platform_version": "RICH_GAMEPLAY",
+    "navigation_menu_version": "NAV_FLOATING",
+    "custom_update_templates": {
+      "play_turn": {
+        "example": "Edgar played their move"
+      }
+    },
+    "match_player_config": {
+      "min_context_size": 2,
+      "max_context_size": 2
+    }
+  }
+}

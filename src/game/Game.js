@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import GameService from './service';
 import './game.css'
 import {Link} from "react-router-dom";
+import LeaderboardService from "../leaderboard/service";
 
 const resultMapAnswer = {1 : 'A',  2 : 'B', 3 : 'C', 4 : 'D'};
 
@@ -30,7 +31,7 @@ class Game extends Component {
       highest: 0,
       timeup: false
     });
-    this.gameService.getQuestion(this.state.currentLevel).then(res => {
+    GameService.getQuestion(this.state.currentLevel).then(res => {
       this.setState({
         ...res.data
       })
@@ -41,8 +42,7 @@ class Game extends Component {
   }
 
   componentDidMount() {
-    this.gameService = new GameService();
-    this.gameService.getQuestion(this.state.currentLevel).then(res => {
+    GameService.getQuestion(this.state.currentLevel).then(res => {
       this.setState({
         ...res.data
       })
@@ -86,7 +86,7 @@ class Game extends Component {
   nextQuestion() {
     let randLevel = this.state.currentLevel + parseInt(Math.random() * 10)  % 2;
     console.log(randLevel);
-    this.gameService.getQuestion(randLevel < 15 ? randLevel : 15).then(res => {
+    GameService.getQuestion(randLevel < 15 ? randLevel : 15).then(res => {
       this.setState({
         ...res.data
       })
@@ -107,9 +107,10 @@ class Game extends Component {
       if (parseInt(me.timeBar.current.offsetWidth) === 0) {
         clearInterval(me.countDownInterval);
         me.setState({timeup : true})
-        //const game = Game.currentGame()
-        //handleGameOver(game)
-        //updateTurnBestScore()
+        if (me.state.highest > GameService.bestScore) {
+          me.setState({newRecord: true});
+          LeaderboardService.updateBestScore(me.state.highest);
+        }
       }
       me.setState({timeLeft: me.state.timeLeft - 1})
       currentRight += distance;
@@ -138,7 +139,7 @@ class Game extends Component {
     <div className="pop-up-container">
       <div className="pop-up-box">
         <div className="pop-up-content" id="game-over-popup">
-          <img className="ribbon" src={this.state.highest ? "./images/ribbon-new-record.png" : "./images/ribbon-game-over.png"}/>
+          <img className="ribbon" src={this.state.newRecord ? "./images/ribbon-new-record.png" : "./images/ribbon-game-over.png"}/>
           <div className="score-result-view">
             <div className="score-result new-score-result">
               <span className="score-result-text" id="score-new-text">New</span>
@@ -146,7 +147,7 @@ class Game extends Component {
             </div>
             <div className="score-result best-score-result">
               <span className="score-result-text" id="score-best-text">Best</span>
-              <span className="score-result-point" id="best-score">{this.state.highest}</span>
+              <span className="score-result-point" id="best-score">{GameService.bestScore}</span>
               {/*<span className="score-result-point" id="opponent-score">0</span>*/}
             </div>
             <div className="score-result pvf-challenge-view">

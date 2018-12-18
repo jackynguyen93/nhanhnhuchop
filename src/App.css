@@ -1,0 +1,9 @@
+input[type="button"]
+{
+    border: none;
+    outline:none;
+}
+
+button {
+    outline: none;
+}
