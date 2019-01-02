@@ -42,6 +42,11 @@ class Game extends Component {
   }
 
   componentDidMount() {
+    if (GameService.gameMode === 'VS') {
+      GameService.subscribeOpponentScore(score => this.setState({opponentScore: score}));
+    } else {
+      GameService.gameMode = 'SOLO';
+    }
     GameService.getQuestion(this.state.currentLevel).then(res => {
       this.setState({
         ...res.data
@@ -103,19 +108,25 @@ class Game extends Component {
     me.setState({timeLeft: time})
     console.log("Start:" + new Date().getTime());
     me.countDownInterval = setInterval(function() {
-        console.log("End:" + new Date().getTime());
       if (parseInt(me.timeBar.current.offsetWidth) === 0) {
-        clearInterval(me.countDownInterval);
-        me.setState({timeup : true})
-        if (me.state.highest > GameService.bestScore) {
-          me.setState({newRecord: true});
-          LeaderboardService.updateBestScore(me.state.highest);
-        }
+        me.handleGameover();
       }
       me.setState({timeLeft: me.state.timeLeft - 1})
       currentRight += distance;
       me.timeBar.current.style.right =  currentRight + "px";
     }, 100) // time for per count down and change in view
+  }
+
+  handleGameover() {
+    clearInterval(this.countDownInterval);
+    this.setState({timeup : true});
+    if (GameService.gameMode === 'VS') {
+      GameService.updateScoreVsMode(this.state.highest);
+    }
+    if (this.state.highest > GameService.bestScore) {
+      this.setState({newRecord: true});
+      LeaderboardService.updateBestScore(this.state.highest);
+    }
   }
 
   quitGame() {
@@ -128,11 +139,44 @@ class Game extends Component {
 
   exit() {
     clearInterval(this.countDownInterval);
+    GameService.isChallenge = null;
+    GameService.gameMode = '';
     setTimeout(() => {
       this.props.history.push("/");
     }, 200);
   }
 
+  getGameoverScore() {
+    console.log(this.state.opponentScore);
+    return GameService.gameMode === 'VS' ? (
+      <div className="score-result-view">
+        <div className="score-result new-score-result">
+          <span className="score-result-text" id="score-new-text">Your score</span>
+          <span className="score-result-point" id="new-score">{this.state.highest}</span>
+        </div>
+        <div className="score-result best-score-result">
+          <span className="score-result-text" id="score-best-text">Opponent score</span>
+          <span className="score-result-point" id="best-score">{this.state.opponentScore || 'Waiting ...'}</span>
+        </div>
+      </div>
+    ) : (
+      <div className="score-result-view">
+        <div className="score-result new-score-result">
+          <span className="score-result-text" id="score-new-text">Score</span>
+          <span className="score-result-point" id="new-score">{this.state.highest}</span>
+        </div>
+        <div className="score-result best-score-result">
+          <span className="score-result-text" id="score-best-text">Best</span>
+          <span className="score-result-point" id="best-score">{GameService.bestScore}</span>
+        </div>
+        <div className="score-result pvf-challenge-view">
+          <button className="btn-pop-up" id="btn-share-challenge">
+            Challenge
+          </button>
+        </div>
+      </div>
+    )
+  }
 
   popupGameover() {
     return (
@@ -140,22 +184,7 @@ class Game extends Component {
       <div className="pop-up-box">
         <div className="pop-up-content" id="game-over-popup">
           <img className="ribbon" src={this.state.newRecord ? "./images/ribbon-new-record.png" : "./images/ribbon-game-over.png"}/>
-          <div className="score-result-view">
-            <div className="score-result new-score-result">
-              <span className="score-result-text" id="score-new-text">New</span>
-              <span className="score-result-point" id="new-score">{this.state.highest}</span>
-            </div>
-            <div className="score-result best-score-result">
-              <span className="score-result-text" id="score-best-text">Best</span>
-              <span className="score-result-point" id="best-score">{GameService.bestScore}</span>
-              {/*<span className="score-result-point" id="opponent-score">0</span>*/}
-            </div>
-            <div className="score-result pvf-challenge-view">
-              <button className="btn-pop-up" id="btn-share-challenge">
-                Challenge
-              </button>
-            </div>
-          </div>
+          {this.getGameoverScore()}
           <div className="pop-up-button-view">
             <Link to="/" >
               <button className="btn-pop-up" id="btn-pop-up-exit" >

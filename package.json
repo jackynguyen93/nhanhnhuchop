@@ -5,12 +5,14 @@
   "dependencies": {
     "@craco/craco": "^3.1.1",
     "axios": "^0.18.0",
+    "gun": "^0.9.99997",
     "jquery": "^3.3.1",
     "react": "^16.6.3",
     "react-dom": "^16.6.3",
     "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1",
-    "react-scripts": "2.1.1"
+    "react-scripts": "2.1.1",
+    "websocket": "^1.0.28"
   },
   "devDependencies": {
     "@babel/plugin-proposal-decorators": "^7.1.6",

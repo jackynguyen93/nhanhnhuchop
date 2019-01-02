@@ -9,27 +9,81 @@ class Home extends Component {
     preMatch: false
   };
 
-  getPreMatch() {
-    GameService.matchFriendPlayer();
+  componentDidMount() {
+    let me = this;
+    GameService.checkIsChallenge(isChallenge => {
+      if (isChallenge) {
+        me.setState({preMatch: true});
+        me.setState({me : GameService.players.me, opponent: GameService.players.opponent});
+        setTimeout(() => {
+          me.props.history.push("/game");
+        }, 3000);
+      }
+    });
+  }
 
+  getPreMatch() {
+    let {me, opponent} = this.state;
     return (
       <div className="pre-match-content">
         <div className="pre-match-player-view current-player-view">
           <span className="current-name-player"></span>
-          <div className="pre-match-avatar">
-            <img src="./images/btn-home-background.png"/>
-            <img className="img-player-avatar current-player-avatar" src={''}/>
-          </div>
+          {me ?
+            (
+              <div className="pre-match-avatar">
+              <img src="./images/btn-home-background.png"/>
+              <img className="img-player-avatar current-player-avatar" src={me.photo}/>
+              </div>
+            ) :
+            (
+              <div className="pre-match-avatar">
+                <img src="./images/btn-home-background.png"/>
+              </div>
+            )
+          }
+
         </div>
         <div className="vs-text">vs</div>
         <div className="pre-match-player-view opponent-player-view">
-          <div className="pre-match-avatar">
-            <img src="./images/btn-home-background.png"/>
-            <img className="img-player-avatar opponent-player-avatar"/>
-          </div>
+          {
+            opponent ? (
+              <div className="pre-match-avatar">
+                <img src="./images/btn-home-background.png"/>
+                <img className="img-player-avatar opponent-player-avatar" src={opponent.photo}/>
+              </div>
+            ) :
+            (
+              <div className="pre-match-avatar">
+                <img src="./images/btn-home-background.png"/>
+              </div>
+            )
+          }
           <span className="opponent-name-player"></span>
         </div>
+        {this.state.waiting ? 'WAITING .....' : 'READY '}
       </div>)
+  }
+
+  matchWithFriend() {
+    this.setState({waiting: true, preMatch: true});
+    let me = this;
+    GameService.matchFriendPlayer(players => {
+      me.setState({me: players[1].$1, opponent: players[0].$1});
+      GameService.subscribePlayerReady(players.filter(player => player.getID !== FBInstant.player.getID())[0].getID(), () => {
+        console.log('ready play!');
+        me.setState({waiting: false});
+        GameService.gameMode = 'VS';
+        GameService.players = {me: players[1].$1, opponent: players[0].$1};
+        setTimeout(() => {
+         me.props.history.push("/game");
+        }, 3000);
+      });
+    });
+  }
+
+  singlePlay() {
+    GameService.gameMode = 'SOLO';
+    this.props.history.push("/game");
   }
 
   render() {
@@ -42,12 +96,10 @@ class Home extends Component {
             :
             (<div className="home-main">
               <div className="btn-home-content">
-                <Link to="/game">
-                  <button className="btn-home-center" id="btn-home-play">
-                    <img src="./images/btn-home-play.png"/>
-                  </button>
-                </Link>
-                <button className="btn-home-center" id="btn-home-friend" onClick={() => this.setState({preMatch: true})}>
+                <button className="btn-home-center" id="btn-home-play" onClick={() => this.singlePlay()}>
+                  <img src="./images/btn-home-play.png"/>
+                </button>
+                <button className="btn-home-center" id="btn-home-friend" onClick={() => this.matchWithFriend()}>
                   <img src="./images/btn-home-friend.png"/>
                 </button>
               </div>

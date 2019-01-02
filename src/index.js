@@ -4,9 +4,10 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import LeaderboardService from './leaderboard/service'
+import GameService from './game/service'
 
 FBInstant.initializeAsync().then(function() {
-  FBInstant.setLoadingProgress(100)
+  FBInstant.setLoadingProgress(100);
   FBInstant.startGameAsync().then(function() {
     ReactDOM.render(<App />, document.getElementById('root'));
     LeaderboardService.getPlayerLeaderboard();
